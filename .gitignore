@@ -1,0 +1,10 @@
+env
+
+Файлы
+Подписи
+Результат
+error.log
+__pycache__
+run.spec
+dist
+build

@@ -31,10 +31,12 @@ def create_result_document(filedata: FileData):
             "facilityname": getattr(filedata, "facilityname", None),
             "filename": getattr(filedata, "filename", None),
             "documentname": getattr(filedata, "documentname", None),
-            "filedate": filedata.modtime.strftime(DATE_FORMAT) if hasattr(filedata, "filedate") else None,
-            "filetime": filedata.modtime.strftime(TIME_FORMAT) if hasattr(filedata, "filetime") else None,
+            "filedate": filedata.modtime.strftime(DATE_FORMAT) if hasattr(filedata, "modtime") else None,
+            "filetime": filedata.modtime.strftime(TIME_FORMAT) if hasattr(filedata, "modtime") else None,
             "filehash": getattr(filedata, "filehash", None),
             "documentcode": getattr(filedata, "documentcode", None),
+            "documentversion": getattr(filedata, "documentversion", None),
+            "filesize": getattr(filedata, "size", None)
         },
         output_filename,
     )
@@ -62,7 +64,6 @@ def insert_persons(
     for person in persons:
         print(f"\t{person.full_name}")
 
-        table.add_row()
         new_row = table.rows[-1]
         new_row.cells[0].text = person.job_title
         new_row.cells[0].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -76,5 +77,6 @@ def insert_persons(
             check_and_resize_image(picture_path)
             new_row.cells[2].paragraphs[0].add_run().add_picture(picture_path)
             new_row.cells[2].paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        table.add_row()
 
     doc.save(filename)

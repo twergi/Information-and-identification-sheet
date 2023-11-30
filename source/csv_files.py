@@ -58,6 +58,7 @@ def read_input_data(filepath: str) -> Dict[str, FileData]:
         facilitynames = reader.__next__()[2:]
         documentnames = reader.__next__()[2:]
         documentcodes = reader.__next__()[2:]
+        documentversions = reader.__next__()[2:]
 
         # skipping rows without data
         _ = reader.__next__()
@@ -70,6 +71,7 @@ def read_input_data(filepath: str) -> Dict[str, FileData]:
                 facilityname=facilitynames[i],
                 documentname=documentnames[i],
                 documentcode=documentcodes[i],
+                documentversion=documentversions[i],
                 persons=list(),
             )
 
@@ -79,7 +81,7 @@ def read_input_data(filepath: str) -> Dict[str, FileData]:
             except StopIteration:
                 break
 
-            if len(data) <= 2:
+            if len(row) <= 2:
                 continue
 
             full_name, job_title, includes = row[0], row[1], row[2:]
